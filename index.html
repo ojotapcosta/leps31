@@ -44,14 +44,26 @@
       flex-direction: column;
       align-items: center;
     }
-    .input-area {
+    .top-card {
+      background: #fffbe7;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 18px 12px 24px 12px;
+      margin-top: 10px;
+      margin-bottom: 18px;
+      width: 95vw;
+      max-width: 420px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 10px;
+    }
+    .input-area {
+      flex-direction: row;
       gap: 10px;
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 0;
+      justify-content: center;
     }
     #palavra {
       font-size: 1.1rem;
@@ -83,12 +95,25 @@
       transform: scale(0.97);
     }
     #usadas {
-      margin: 15px 0 10px 0;
-      font-size: 1rem;
+      margin: 18px 0 0 0;
+      font-size: 1.1rem;
       color: #333;
       text-align: center;
       max-width: 95vw;
       word-break: break-word;
+      font-weight: bold;
+    }
+    .galeria-bg {
+      background: #e7eaff;
+      border-radius: 22px;
+      padding: 18px 0 30px 0;
+      width: 98vw;
+      max-width: 430px;
+      margin: 0 auto 30px auto;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     #galeria {
       display: grid;
@@ -194,8 +219,17 @@
       #modal-content {
         padding: 10px 2px 2px 2px;
       }
+      .top-card {
+        padding: 10px 2vw 18px 2vw;
+        max-width: 99vw;
+      }
+      .galeria-bg {
+        padding: 10px 0 18px 0;
+        max-width: 99vw;
+      }
       .input-area {
-        max-width: 98vw;
+        flex-direction: column;
+        gap: 8px;
       }
     }
   </style>
@@ -306,12 +340,16 @@
     <h1>Caça ao Tesouro Disney</h1>
   </header>
   <main>
-    <div class="input-area">
-      <input type="text" id="palavra" placeholder="Digite uma pista mágica...">
-      <button onclick="checarPalavra()">Verificar</button>
+    <div class="top-card">
+      <div class="input-area">
+        <input type="text" id="palavra" placeholder="Digite uma pista mágica...">
+        <button onclick="checarPalavra()">Verificar</button>
+      </div>
+      <div id="usadas"></div>
     </div>
-    <div id="usadas"></div>
-    <div id="galeria"></div>
+    <div class="galeria-bg">
+      <div id="galeria"></div>
+    </div>
   </main>
   <div id="modal" onclick="closeModal()">
     <div id="modal-content">

@@ -178,16 +178,20 @@
     }
   </style>
   <script>
-    // lista de personagens (exemplo parcial, complete com todos os nomes da sua pasta)
     const personagens = [
       'mcqueen','mcstuffins','merida','mickey','mike','minnie','moana','mulan','olaf',
       'peter_pan','piglet','pinocchio','pluto','pocahontas','pooh','r2_d2','rapunzel','rex',
       'simba','snow_white','spider_man','stitch','stormtrooper','sulley','thanos','thor','tiana',
       'tigger','tinker_bell','venom','walle','woody','yoda','aladdin','alice','angel','anna',
-      'ariel','aurora','baby_yoda','bambi','beast','belle','black_panther','bluey','bo_peep','buzz',
+      'ariel','aurora','baby_yoda','bambi','beast','belle','black_panther','bo_peep','buzz',
       'captain_america','captain_marvel','cheshire','chip_n_dale','chip','cinderella','daisy',
       'darth_vader','donald_duck','dumbo','eeyore','elsa','forky','goofy','han_solo','hercules',
-      'hulk','iron_man','jack','jasmine','jessie','lotso','marie','mary_poppins'
+      'hulk','iron_man','jack','jasmine','jessie','lotso','marie','mary_poppins','christopher_robin',
+      'abu','alegria','balu','bolt','capitao_gancho','carl_fredricksen','louis','cruella_de_vil',
+      'dory','esmeralda','fada_madrinha','flynn_rider','frozone','genio','hades',
+      'jafar','grilo_falante','kuzco','lilo','malevola','maximus','megara','nala','pascal',
+      'quasimodo','remy','scar','timão','pumbaa'
+
     ];
     let ativos = [...personagens];
 
@@ -199,19 +203,73 @@
     let pistasUsadas = 0;
 
     const palavras_validas = [
-      'palavra1','palavra2','palavra3','palavra4','palavra5',
-      'palavra6','palavra7','palavra8','palavra9','palavra10',
-      'palavra11','palavra12','palavra13','palavra14','palavra15',
-      'palavra16','palavra17','palavra18','palavra19','palavra20'
+      'urso',
+      'evans',
+      'hood',
+      'batman',
+      'willians',
+      'robin',
+      'eric',
+      'pascal',
+      'fera',
+      'nadal',
+      'cristal',
+      'motunui',
+      'ella',
+      'magic',
+      'aurelio',
+      'wendy',
+      'nouns',
+      'banana',
+      'starship',
+      'honey'
     ];
 
     const eliminados = new Set();
     const usedWords = new Set();
 
+    // Códigos especiais de 3 dígitos
+    const codigos_especiais = [
+      '857','419','716','351','809','542','408','733','916','589'
+    ];
+
+    // Função para embaralhar array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
     function checarPalavra() {
       const entradaEl = document.getElementById('palavra');
       const entrada = entradaEl.value.toLowerCase().trim();
       if (!entrada) return;
+
+      // Se for um código especial
+      if (codigos_especiais.includes(entrada)) {
+        if (usedWords.has(entrada)) {
+          alert('Esse código já foi usado!');
+          entradaEl.value = '';
+          return;
+        }
+        usedWords.add(entrada);
+        renderUsadas();
+      
+        let paraEliminar = Math.ceil(ativos.length * 0.15);
+        const candidatos = ativos.filter(p => p !== 'christopher_robin');
+        while (candidatos.length > 0 && paraEliminar > 0) {
+          const idx = Math.floor(Math.random() * candidatos.length);
+          eliminados.add(candidatos[idx]);
+          candidatos.splice(idx, 1);
+          paraEliminar--;
+        }
+        ativos = ativos.filter(p => !eliminados.has(p));
+        render();
+        entradaEl.value = '';
+      }
+
       if (usedWords.has(entrada)) {
         alert('Essa palavra já foi usada');
         entradaEl.value = '';
@@ -229,7 +287,7 @@
       let removerAgora = basePorPista;
       if (pistasUsadas <= sobra) removerAgora++;
 
-      const candidatos = ativos.filter(p => p !== 'moana');
+      const candidatos = ativos.filter(p => p !== 'christopher_robin');
       while (candidatos.length > 0 && removerAgora > 0) {
         const idx = Math.floor(Math.random() * candidatos.length);
         eliminados.add(candidatos[idx]);
@@ -278,12 +336,15 @@
       document.getElementById('modal').style.display = 'none';
     }
 
-    window.onload = render;
+    window.onload = function() {
+      ativos = shuffle([...personagens]);
+      render();
+    }
   </script>
 </head>
 <body>
   <header>
-    <h1>Caça ao Tesouro Disney</h1>
+    <h1>🎉 Lep's 31 Treasure Hunt! 🎉</h1>
   </header>
   <main>
     <div class="input-area">
@@ -304,3 +365,4 @@
   </div>
 </body>
 </html>
+

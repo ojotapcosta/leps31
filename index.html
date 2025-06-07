@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Caça ao Tesouro Disney</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
@@ -17,26 +18,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 0;
     }
     header {
-      width: 100%;
-      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
-      color: #fff;
+      padding: 23px 0;
       text-align: center;
-      padding: 32px 10px 18px 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
-      margin-bottom: 18px;
     }
     header h1 {
-      font-size: 2.2rem;
       margin: 0;
-      letter-spacing: 2px;
-      text-shadow: 1px 2px 8px #f7b731;
+      font-size: 1.9rem;
+      color: #333;
     }
     main {
       width: 100%;
@@ -44,38 +34,19 @@
       flex-direction: column;
       align-items: center;
     }
-    .top-card {
-      background: #fffbe7;
-      border-radius: 18px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      padding: 18px 12px 24px 12px;
-      margin-top: 10px;
-      margin-bottom: 18px;
-      width: 95vw;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
     .input-area {
-      flex-direction: row;
+      display: flex;
       gap: 10px;
-      width: 100%;
-      max-width: 100%;
-      margin-bottom: 0;
-      justify-content: center;
+      margin: 26px 0;
     }
-    #palavra {
-      font-size: 1.1rem;
-      padding: 12px 16px;
-      border-radius: 18px;
+    input {
+      font-size: 1rem;
+      padding: 14px;
       border: 2px solid #ffb347;
+      border-radius: 18px;
       outline: none;
-      width: 100%;
-      box-sizing: border-box;
-      background: #fffbe7;
+      width: 220px;
       font-family: 'Fredoka One', Arial, sans-serif;
-      margin-bottom: 0;
     }
     button {
       font-size: 1.1rem;
@@ -95,80 +66,57 @@
       transform: scale(0.97);
     }
     #usadas {
-      margin: 18px 0 0 0;
-      font-size: 1.1rem;
+      margin: 15px 0 10px 0;
+      font-size: 1rem;
       color: #333;
       text-align: center;
       max-width: 95vw;
       word-break: break-word;
-      font-weight: bold;
     }
     .galeria-bg {
-      background: #e7eaff;
-      border-radius: 22px;
-      padding: 18px 0 30px 0;
-      width: 100vw;
-      max-width: 100vw;
-      margin: 0 auto 30px auto;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: rgba(255,255,255,0.6);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
     #galeria {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
       width: 100%;
-      max-width: 340px;
-      margin-bottom: 30px;
-      justify-items: center;
+      margin: 0 auto;
+      padding: 10px;
     }
     #galeria img {
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       object-fit: cover;
-      border-radius: 18px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-      background: #fff;
-      border: 2px solid #fffbe7;
-      transition: transform 0.15s, box-shadow 0.15s;
-      display: block;
     }
-    #galeria img:active {
-      transform: scale(1.08);
-      box-shadow: 0 4px 16px rgba(255, 195, 0, 0.18);
-    }
-    /* Modal estilizado */
+    /* Modal */
     #modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      flex-direction: column;
     }
     #modal-content {
       position: relative;
-      background: #fffbe7;
-      border-radius: 18px;
-      padding: 18px 10px 10px 10px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 95vw;
-      max-height: 90vh;
+      text-align: center;
     }
     #modal-img {
-      max-width: 80vw;
-      max-height: 60vh;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      background: #fff;
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
     }
     #modal-close {
       position: absolute;
@@ -193,13 +141,15 @@
       font-size: 1.2rem;
       font-family: 'Fredoka One', Arial, sans-serif;
     }
+
     @media (max-width: 600px) {
       header h1 {
         font-size: 1.3rem;
       }
       #galeria {
         grid-template-columns: repeat(3, 1fr);
-        max-width: 100vw;
+        width: 100vw;
+        max-width: none;
         gap: 2vw;
         padding: 0;
         margin: 0;
@@ -209,31 +159,21 @@
         height: 28vw;
         min-width: 60px;
         min-height: 60px;
-        max-width: 120px;
-        max-height: 120px;
-      }
-      #modal-img {
-        max-width: 95vw;
-        max-height: 40vh;
-      }
-      #modal-content {
-        padding: 10px 2px 2px 2px;
-      }
-      .top-card {
-        padding: 10px 2vw 18px 2vw;
-        max-width: 99vw;
-        width: auto;
-        border-radius: 18px;
+        object-fit: cover;
+        border-radius: 0;
       }
       .galeria-bg {
         padding: 10px 0 18px 0;
-        max-width: 100vw;
         width: 100vw;
+        max-width: none;
         border-radius: 0;
       }
       .input-area {
         flex-direction: column;
         gap: 8px;
+      }
+      #modal-content {
+        padding: 10px 2px 2px 2px;
       }
     }
   </style>
@@ -241,14 +181,13 @@
     // lista de personagens (exemplo parcial, complete com todos os nomes da sua pasta)
     const personagens = [
       'mcqueen','mcstuffins','merida','mickey','mike','minnie','moana','mulan','olaf',
-      'peter_pan','piglet','pinocchio','pluto','pocahontas','pooh','r2_d2','rapunzel',
-      'rex','simba','snow_white','spider_man','stitch','stormtrooper','sulley','thanos',
-      'thor','tiana','tigger','tinker_bell','venom','walle','woody','yoda','aladdin',
-      'alice','angel','anna','ariel','aurora','baby_yoda','bambi','beast','belle',
-      'black_panther','bluey','bo_peep','buzz','captain_america','captain_marvel',
-      'cheshire','chip_n_dale','chip','cinderella','daisy','darth_vader','donald_duck',
-      'dumbo','eeyore','elsa','forky','goofy','han_solo','hercules','hulk','iron_man',
-      'jack','jasmine','jessie','lotso','marie','mary_poppins'
+      'peter_pan','piglet','pinocchio','pluto','pocahontas','pooh','r2_d2','rapunzel','rex',
+      'simba','snow_white','spider_man','stitch','stormtrooper','sulley','thanos','thor','tiana',
+      'tigger','tinker_bell','venom','walle','woody','yoda','aladdin','alice','angel','anna',
+      'ariel','aurora','baby_yoda','bambi','beast','belle','black_panther','bluey','bo_peep','buzz',
+      'captain_america','captain_marvel','cheshire','chip_n_dale','chip','cinderella','daisy',
+      'darth_vader','donald_duck','dumbo','eeyore','elsa','forky','goofy','han_solo','hercules',
+      'hulk','iron_man','jack','jasmine','jessie','lotso','marie','mary_poppins'
     ];
     let ativos = [...personagens];
 
@@ -285,17 +224,19 @@
       }
       usedWords.add(entrada);
       pistasUsadas++;
-      // calcula quantos remover nesta pista
+      renderUsadas();
+
       let removerAgora = basePorPista;
       if (pistasUsadas <= sobra) removerAgora++;
+
       const candidatos = ativos.filter(p => p !== 'moana');
-      const removidos = [];
-      while (removidos.length < removerAgora && candidatos.length > 0) {
+      while (candidatos.length > 0 && removerAgora > 0) {
         const idx = Math.floor(Math.random() * candidatos.length);
-        const escolhido = candidatos[idx];
-        eliminados.add(escolhido);
+        eliminados.add(candidatos[idx]);
         candidatos.splice(idx, 1);
+        removerAgora--;
       }
+
       ativos = ativos.filter(p => !eliminados.has(p));
       render();
       entradaEl.value = '';
@@ -332,6 +273,7 @@
       document.getElementById('modal-caption').textContent = nome;
       modal.style.display = 'flex';
     }
+
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
     }
@@ -344,13 +286,11 @@
     <h1>Caça ao Tesouro Disney</h1>
   </header>
   <main>
-    <div class="top-card">
-      <div class="input-area">
-        <input type="text" id="palavra" placeholder="Digite uma pista mágica...">
-        <button onclick="checarPalavra()">Verificar</button>
-      </div>
-      <div id="usadas"></div>
+    <div class="input-area">
+      <input type="text" id="palavra" placeholder="Digite uma pista">
+      <button onclick="checarPalavra()">Verificar</button>
     </div>
+    <div id="usadas"></div>
     <div class="galeria-bg">
       <div id="galeria"></div>
     </div>

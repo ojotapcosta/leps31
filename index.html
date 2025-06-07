@@ -38,6 +38,12 @@
       letter-spacing: 2px;
       text-shadow: 1px 2px 8px #f7b731;
     }
+    main {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .input-area {
       display: flex;
       flex-direction: column;
@@ -167,9 +173,11 @@
         font-size: 1.3rem;
       }
       #galeria {
+        grid-template-columns: repeat(3, 1fr);
         max-width: 100vw;
-        gap: 4vw;
-        padding: 0 2vw;
+        gap: 2vw;
+        padding: 0;
+        margin: 0;
       }
       #galeria img {
         width: 28vw;
@@ -192,42 +200,41 @@
     }
   </style>
   <script>
+    // lista de personagens (exemplo parcial, complete com todos os nomes da sua pasta)
     const personagens = [
-      'mcqueen','mcstuffins','merida','mickey','mike','minnie','moana','mulan','olaf','peter_pan','piglet','pinocchio','pluto','pocahontas','pooh','r2_d2','rapunzel','rex','simba','snow_white','spider_man','stitch','stormtrooper','sulley','thanos','thor','tiana','tigger','tinker_bell','venom','walle','woody','yoda','aladdin','alice','angel','anna','ariel','aurora','baby_yoda','bambi','beast','belle','black_panther','bo_peep','buzz','captain_america','captain_marvel','cheshire','chip_n_dale','chip','cinderella','daisy','darth_vader','donald_duck','dumbo','eeyore','elsa','forky','goofy','han_solo','hercules','hulk','iron_man','jack','jasmine','jessie','lotso','marie','mary_poppins','christopher_robin'
-
+      'mcqueen','mcstuffins','merida','mickey','mike','minnie','moana','mulan','olaf',
+      'peter_pan','piglet','pinocchio','pluto','pocahontas','pooh','r2_d2','rapunzel',
+      'rex','simba','snow_white','spider_man','stitch','stormtrooper','sulley','thanos',
+      'thor','tiana','tigger','tinker_bell','venom','walle','woody','yoda','aladdin',
+      'alice','angel','anna','ariel','aurora','baby_yoda','bambi','beast','belle',
+      'black_panther','bluey','bo_peep','buzz','captain_america','captain_marvel',
+      'cheshire','chip_n_dale','chip','cinderella','daisy','darth_vader','donald_duck',
+      'dumbo','eeyore','elsa','forky','goofy','han_solo','hercules','hulk','iron_man',
+      'jack','jasmine','jessie','lotso','marie','mary_poppins'
     ];
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-    let ativos = shuffle([...personagens]);
-    
+    let ativos = [...personagens];
+
     const totalPistas = 20;
     const pistasParaVencer = 12;
-    const totalParaEliminar = personagens.length - 1; // 199
-    const basePorPista = Math.floor(totalParaEliminar / pistasParaVencer); // 16
-    const sobra = totalParaEliminar % pistasParaVencer; // 7
+    const totalParaEliminar = personagens.length - 1;
+    const basePorPista = Math.floor(totalParaEliminar / pistasParaVencer);
+    const sobra = totalParaEliminar % pistasParaVencer;
     let pistasUsadas = 0;
-    
-    // 20 palavras válidas
+
     const palavras_validas = [
       'palavra1','palavra2','palavra3','palavra4','palavra5',
       'palavra6','palavra7','palavra8','palavra9','palavra10',
       'palavra11','palavra12','palavra13','palavra14','palavra15',
       'palavra16','palavra17','palavra18','palavra19','palavra20'
     ];
-    
+
     const eliminados = new Set();
     const usedWords = new Set();
-    
+
     function checarPalavra() {
       const entradaEl = document.getElementById('palavra');
       const entrada = entradaEl.value.toLowerCase().trim();
       if (!entrada) return;
-  
       if (usedWords.has(entrada)) {
         alert('Essa palavra já foi usada');
         entradaEl.value = '';
@@ -238,34 +245,24 @@
         entradaEl.value = '';
         return;
       }
-  
       usedWords.add(entrada);
       pistasUsadas++;
-      renderUsadas();
-      
       // calcula quantos remover nesta pista
       let removerAgora = basePorPista;
-      if (pistasUsadas <= sobra) {
-        removerAgora = basePorPista + 1; // nas primeiras 7 pistas remove 17
-      }
-  
-      const candidatos = ativos.filter(p => p !== 'christopher_robin');
+      if (pistasUsadas <= sobra) removerAgora++;
+      const candidatos = ativos.filter(p => p !== 'moana');
       const removidos = [];
       while (removidos.length < removerAgora && candidatos.length > 0) {
         const idx = Math.floor(Math.random() * candidatos.length);
         const escolhido = candidatos[idx];
-        removidos.push(escolhido);
         eliminados.add(escolhido);
         candidatos.splice(idx, 1);
       }
-  
-      // atualiza ativos removendo os já eliminados
       ativos = ativos.filter(p => !eliminados.has(p));
       render();
       entradaEl.value = '';
-
     }
-  
+
     function render() {
       const area = document.getElementById('galeria');
       area.innerHTML = '';
@@ -273,46 +270,42 @@
         const img = document.createElement('img');
         img.src = 'img/' + p + (p === 'bluey' ? '.webp' : '.png');
         img.alt = p;
-        img.style = 'width:100px;height:100px;margin:10px;cursor:pointer;';
         img.onclick = () => openModal(img.src, p);
         area.appendChild(img);
       });
-    }
-    
-    function openModal(src, nome) {
-      const modal = document.getElementById('modal');
-      const modalImg = document.getElementById('modal-img');
-      const caption = document.getElementById('modal-caption');
-      modalImg.src = src;
-      caption.textContent = nome;
-      modal.style.display = 'flex';
-    }
-    
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
+      renderUsadas();
     }
 
     function renderUsadas() {
       const usadasDiv = document.getElementById('usadas');
       if (usedWords.size === 0) {
         usadasDiv.textContent = 'Nenhuma palavra válida usada ainda.';
-        return;
+      } else {
+        usadasDiv.innerHTML = '<b>Palavras usadas:</b> ' +
+          Array.from(usedWords)
+            .map(w => `<span style="background:#e0e0e0;padding:3px 8px;border-radius:8px;margin:2px;">${w}</span>`)
+            .join('');
       }
-      usadasDiv.innerHTML = '<b>Palavras válidas já usadas:</b> ' +
-        Array.from(usedWords).map(p => `<span style="background:#e0e0e0;padding:3px 8px;border-radius:8px;margin:2px;display:inline-block;">${p}</span>`).join(' ');
     }
 
-    window.onload = function() {
-      render();
-      renderUsadas();
+    function openModal(src, nome) {
+      const modal = document.getElementById('modal');
+      document.getElementById('modal-img').src = src;
+      document.getElementById('modal-caption').textContent = nome;
+      modal.style.display = 'flex';
     }
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    window.onload = render;
   </script>
 </head>
 <body>
   <header>
     <h1>Caça ao Tesouro Disney</h1>
   </header>
-  <main style="width:100%;display:flex;flex-direction:column;align-items:center;">
+  <main>
     <div class="input-area">
       <input type="text" id="palavra" placeholder="Digite uma pista mágica...">
       <button onclick="checarPalavra()">Verificar</button>
@@ -320,13 +313,11 @@
     <div id="usadas"></div>
     <div id="galeria"></div>
   </main>
-
-  <!-- Modal para exibir imagem ampliada -->
-  <div id="modal" onclick="closeModal()" style="display:none;flex-direction:column;">
+  <div id="modal" onclick="closeModal()">
     <div id="modal-content">
       <span id="modal-close" onclick="closeModal()">×</span>
       <img id="modal-img" src="" alt="">
-      <div id="modal-caption" style="color:#fff; text-align:center; margin-top:10px; font-size:18px;"></div>
+      <div id="modal-caption"></div>
     </div>
   </div>
 </body>

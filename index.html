@@ -187,10 +187,10 @@
       'captain_america','captain_marvel','cheshire','chip_n_dale','chip','cinderella','daisy',
       'darth_vader','donald_duck','dumbo','eeyore','elsa','forky','goofy','han_solo','hercules',
       'hulk','iron_man','jack','jasmine','jessie','lotso','marie','mary_poppins','christopher_robin',
-      'abu','alegria','balu','bolt','capitao_gancho','carl_fredricksen','louis','cruella_de_vil',
-      'dory','esmeralda','fada_madrinha','flynn_rider','frozone','genio','hades',
-      'jafar','grilo_falante','kuzco','lilo','malevola','maximus','megara','nala','pascal',
-      'quasimodo','remy','scar','timão','pumbaa'
+      'abu','alegria','balu','bolt','hook','carl','louis','cruella',
+      'dory','mirabel','fada_madrinha','flynn','frozone','genio','hades',
+      'jafar','grilo_falante','kuzco','lilo','maleficent','maximus','megara','nala','pascal',
+      'quasimodo','remy','scar','timao','pumba'
 
     ];
     let ativos = [...personagens];
@@ -222,7 +222,8 @@
       'nouns',
       'banana',
       'starship',
-      'honey'
+      'honey',
+      'kristoff'
     ];
 
     const eliminados = new Set();
@@ -277,7 +278,7 @@
         return;
       }
       if (!palavras_validas.includes(entrada)) {
-        alert('Palavra inválida');
+        alert('Senha inválida');
         entradaEl.value = '';
         return;
       }
